@@ -10,6 +10,9 @@ RULE 25 는 빠른 FIRE (Financial Independence, Retire Early) 달성을 위한 
 
 - node.js
   - Express
+- PostgreSQL
+- Heroku
+  - Heroku Postgres
 
 ## Contributors
 
