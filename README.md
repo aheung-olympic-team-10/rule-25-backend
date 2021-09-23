@@ -16,11 +16,29 @@ RULE 25 는 빠른 FIRE (Financial Independence, Retire Early) 달성을 위한 
 
 ## Getting Started
 
+### 의존성 설치
+
+```
+yarn
+```
+
+### pm2 설치
+
+개발 환경에 `pm2` 모듈을 설치합니다.
+
+```
+yarn global add pm2
+```
+
+### 개발서버 실행
+
 > .env 파일이 존재 해야하며, pm2 패키지가 설치돼있어야 합니다.
 
 ```shell
 yarn start-watch
 ```
+
+개발 서버는 `localhost:3001` 으로 접속할 수 있습니다.
 
 ## Contributors
 
