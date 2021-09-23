@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start-watch": "pm2 start ./bin/www --name='rule-25-backend' --watch",
+    "start-watch": "pm2 start ./bin/www --name='rule-25-backend' --watch && pm2 logs rule-25-backend",
     "stop": "pm2 stop ./bin/www",
     "check:lint": "eslint . --ext .js",
     "fix:lint": "eslint . --fix --ext .js",
