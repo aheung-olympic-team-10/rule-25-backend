@@ -5,7 +5,11 @@
   "scripts": {
     "start": "pm2 start ./bin/www --name='rule-25-backend'",
     "start-watch": "pm2 start ./bin/www --name='rule-25-backend' --watch",
-    "stop": "pm2 stop ./bin/www"
+    "stop": "pm2 stop ./bin/www",
+    "check:lint": "eslint . --ext .js",
+    "fix:lint": "eslint . --fix --ext .js",
+    "check:prettier": "prettier -c .",
+    "fix:prettier": "prettier -c --write ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
