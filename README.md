@@ -14,6 +14,14 @@ RULE 25 는 빠른 FIRE (Financial Independence, Retire Early) 달성을 위한 
 - Heroku
   - Heroku Postgres
 
+## Get Started
+
+> .env 파일이 존재 해야하며, pm2 패키지가 설치돼있어야 합니다.
+
+```shell
+yarn start-watch
+```
+
 ## Contributors
 
 > 10조는 인하대학교, 숭실대학교, 홍익대학교 학생으로 구성되어 있습니다.
