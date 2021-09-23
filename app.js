@@ -3,6 +3,9 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+// 환경변수 로드
+require('dotenv').config();
+
 // 라우터
 const indexRouter = require('./routes/index');
 
