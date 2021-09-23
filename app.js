@@ -8,8 +8,12 @@ require('dotenv').config();
 
 // 라우터
 const indexRouter = require('./routes/index');
+const userRouter = require('./routes/user');
 
 const app = express();
+
+const db = require('./models');
+db.sequelize.sync();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -17,6 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
+app.use('/users', userRouter);
 
 // 404 핸들링
 app.use((req, res, next) => {
