@@ -1,6 +1,6 @@
 const db = require('../models');
 const Notification = db.notification;
-const User = db.user;
+const Follow = db.follow;
 
 exports.create = async (req, res) => {
   const { userId, content } = req.body;
@@ -15,4 +15,22 @@ exports.create = async (req, res) => {
   }
 
   res.status(200).send('success');
+};
+
+exports.getFromFollowings = async (req, res) => {
+  const { userId } = req.params;
+
+  const followings = (
+    await Follow.findAll({
+      include: { all: true },
+      where: { followerId: userId },
+    })
+  ).map((row) => row.followingId);
+
+  const notifications = await Notification.findAll({
+    include: { all: true, attributes: ['name', 'email'] },
+    where: { userId: followings },
+  });
+
+  res.status(200).json(notifications);
 };
