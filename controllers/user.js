@@ -1,7 +1,27 @@
 const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 const db = require('../models');
 const User = db.user;
 const Follow = db.follow;
+
+const createToken = (payload) => {
+  return jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: '48h',
+  });
+};
+
+exports.auth = async (req, res) => {
+  const { email, password } = req.body;
+  const hashed = crypto.createHash('sha512').update(password).digest('base64');
+
+  const user = await User.findOne({ where: { email } });
+
+  if (user.password === hashed) {
+    res.send(createToken(user.get()));
+  } else {
+    res.send('invalid');
+  }
+};
 
 exports.create = async (req, res) => {
   const { name, email, password, annualSaving, annualExpense } = req.body;
