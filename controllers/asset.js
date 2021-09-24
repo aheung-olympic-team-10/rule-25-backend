@@ -21,6 +21,24 @@ exports.create = async (req, res) => {
   res.status(200).send('success');
 };
 
-exports.update = async (req, res) => {};
+exports.update = async (req, res) => {
+  const { id } = req.params;
+  const { ticker, price, amount } = req.body;
+
+  try {
+    await Asset.update(
+      {
+        ticker,
+        price,
+        amount,
+      },
+      { where: { id } }
+    );
+  } catch {
+    res.status(500).send('error');
+  }
+
+  res.status(200).send('success');
+};
 
 exports.delete = async (req, res) => {};
