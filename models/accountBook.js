@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define(
-    'user',
+  const AccountBook = sequelize.define(
+    'accountBook',
     {
       id: {
         type: Sequelize.INTEGER,
@@ -8,44 +8,33 @@ module.exports = (sequelize, Sequelize) => {
         autoIncrement: true,
         allowNull: false,
       },
-      name: {
+      type: {
+        type: Sequelize.ENUM('income', 'expenditure'),
+        allowNull: false,
+      },
+      category: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      email: {
-        type: Sequelize.STRING,
+      date: {
+        type: Sequelize.DATE,
         allowNull: false,
-        unique: true,
-        validate: {
-          isEmail: {
-            msg: 'Must be a valid email address',
-          },
-        },
       },
-      password: {
+      content: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      description: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      annualSaving: {
+      userId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      annualExpense: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
       },
     },
     {
       classMethods: {},
-      tableName: 'user',
+      tableName: 'accountBook',
       freezeTableName: true,
       timestamps: false,
     }
   );
 
-  return User;
+  return AccountBook;
 };
