@@ -41,4 +41,14 @@ exports.update = async (req, res) => {
   res.status(200).send('success');
 };
 
-exports.delete = async (req, res) => {};
+exports.delete = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await Asset.destroy({ where: { id } });
+  } catch {
+    res.status(500).send('error');
+  }
+
+  res.status(200).send('success');
+};
