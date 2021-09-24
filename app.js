@@ -11,6 +11,8 @@ const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
 const notificationRouter = require('./routes/notification');
 const assetRouter = require('./routes/asset');
+const accountBookRouter = require('./routes/accountBook');
+const followRouter = require('./routes/follow');
 
 const app = express();
 
@@ -26,6 +28,8 @@ app.use('/', indexRouter);
 app.use('/users', userRouter);
 app.use('/notifications', notificationRouter);
 app.use('/assets', assetRouter);
+app.use('/account-books', accountBookRouter);
+app.use('/follow', followRouter);
 
 // 404 핸들링
 app.use((req, res, next) => {
