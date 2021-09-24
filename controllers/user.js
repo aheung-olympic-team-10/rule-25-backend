@@ -1,8 +1,6 @@
 const db = require('../models');
 const User = db.user;
 const Follow = db.follow;
-const Notification = db.notification;
-const Op = db.Sequelize.Op;
 
 exports.findOne = async (req, res) => {
   const { id } = req.params;
@@ -19,4 +17,17 @@ exports.findOne = async (req, res) => {
   res
     .status(200)
     .json({ name, email, description, followerCount, followingCount });
+};
+
+exports.getFollowers = async (req, res) => {
+  const { id } = req.params;
+
+  const followers = (
+    await Follow.findAll({
+      include: { all: true },
+      where: { followingId: id },
+    })
+  ).map((row) => row.follower);
+
+  res.status(200).json(followers);
 };
