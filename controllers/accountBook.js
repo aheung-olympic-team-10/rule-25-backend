@@ -4,11 +4,12 @@ const AccountBook = db.accountBook;
 exports.findAll = async (req, res) => {};
 
 exports.create = async (req, res) => {
-  const { userId, type, category, date, content } = req.body;
+  const { userId, amount, type, category, date, content } = req.body;
 
   try {
     await AccountBook.create({
       userId,
+      amount,
       type,
       category,
       date,
