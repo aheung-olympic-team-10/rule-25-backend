@@ -1,6 +1,5 @@
 const db = require('../models');
 const Asset = db.asset;
-const User = db.user;
 
 exports.findAll = async (req, res) => {};
 
