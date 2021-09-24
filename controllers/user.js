@@ -31,3 +31,16 @@ exports.getFollowers = async (req, res) => {
 
   res.status(200).json(followers);
 };
+
+exports.getFollowings = async (req, res) => {
+  const { id } = req.params;
+
+  const followings = (
+    await Follow.findAll({
+      include: { all: true },
+      where: { followerId: id },
+    })
+  ).map((row) => row.following);
+
+  res.status(200).json(followings);
+};
