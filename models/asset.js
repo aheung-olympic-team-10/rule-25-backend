@@ -16,6 +16,14 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.DOUBLE,
         allowNull: false,
       },
+      currency: {
+        type: Sequelize.ENUM('KRW', 'USD'),
+        allowNull: false,
+      },
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       amount: {
         type: Sequelize.INTEGER,
         allowNull: false,
