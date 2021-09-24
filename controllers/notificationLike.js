@@ -1,16 +1,18 @@
 const db = require('../models');
-const Follow = db.follow;
+const NotificationLike = db.notificationLike;
 
 exports.create = async (req, res) => {
-  const { followerId, followingId } = req.body;
+  const { notificationId, likeUserId } = req.body;
 
   try {
-    const count = await Follow.count({ where: { followerId, followingId } });
+    const count = await NotificationLike.count({
+      where: { notificationId, likeUserId },
+    });
 
     if (count === 0) {
-      await Follow.create({
-        followerId,
-        followingId,
+      await NotificationLike.create({
+        notificationId,
+        likeUserId,
       });
     }
   } catch (e) {
@@ -24,7 +26,7 @@ exports.delete = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await Follow.destroy({ where: { id } });
+    await NotificationLike.destroy({ where: { id } });
   } catch (e) {
     res.status(500).send('error');
   }
