@@ -10,5 +10,6 @@ router.post('/auth', user.auth);
 router.get('/:id', verifyJWT, user.findOne);
 router.get('/:id/followers', verifyJWT, user.getFollowers);
 router.get('/:id/followings', verifyJWT, user.getFollowings);
+router.get('/:id/fire', verifyJWT, user.getFire);
 
 module.exports = router;

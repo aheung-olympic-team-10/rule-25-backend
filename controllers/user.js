@@ -1,8 +1,12 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const yahooFinance = require('yahoo-finance');
+
 const db = require('../models');
 const User = db.user;
 const Follow = db.follow;
+const Asset = db.asset;
+const AccountBook = db.accountBook;
 
 const createToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_SECRET, {
@@ -96,4 +100,69 @@ exports.getFollowings = async (req, res) => {
   ).map((row) => row.following);
 
   res.status(200).json(followings);
+};
+
+const getPrice = (ticker, exchangeRate, amount) => {
+  return new Promise((resolve, reject) =>
+    yahooFinance.quote(
+      {
+        symbol: ticker,
+        modules: ['price'],
+      },
+      (err, quotes) => {
+        if (err) reject(err);
+
+        const currentPrice = quotes.price.regularMarketPrice;
+        const realER = quotes.price.currency === 'USD' ? exchangeRate : 1;
+
+        resolve(currentPrice * realER * amount);
+      }
+    )
+  );
+};
+
+exports.getFire = async (req, res) => {
+  const { id } = req.params;
+
+  yahooFinance.quote(
+    {
+      symbol: 'KRW=X',
+      modules: ['price'],
+    },
+    async (err, quotes) => {
+      if (err) {
+        req.send(err);
+        return;
+      }
+
+      const currentPrice = quotes.price.regularMarketPrice;
+
+      const assets = await Asset.findAll({ where: { userId: id } });
+      const accountBooks = await AccountBook.findAll({ where: { userId: id } });
+
+      const assetsPrice = (
+        await Promise.all(
+          assets.map((row) => getPrice(row.ticker, currentPrice, row.amount))
+        )
+      ).reduce((acc, cur) => acc + cur, 0);
+
+      const accountBooksPrice = accountBooks.reduce(
+        (acc, cur) => acc + cur.get().amount,
+        0
+      );
+
+      const totalAsset = assetsPrice + accountBooksPrice;
+
+      const user = await User.findOne({ where: { id } });
+      const initialFirePeriod = (user.annualExpense * 25) / user.annualSaving;
+      const remainFirePeriod =
+        (user.annualExpense * 25 - totalAsset) / user.annualSaving;
+
+      res.json({
+        totalAsset,
+        initialFirePeriod,
+        remainFirePeriod,
+      });
+    }
+  );
 };

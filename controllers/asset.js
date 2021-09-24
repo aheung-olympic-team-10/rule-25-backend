@@ -10,7 +10,7 @@ const getPrice = (ticker, data) => {
         symbol: ticker,
         modules: ['price'],
       },
-      function (err, quotes) {
+      (err, quotes) => {
         if (err) reject(err);
 
         const currentPrice = quotes.price.regularMarketPrice;
