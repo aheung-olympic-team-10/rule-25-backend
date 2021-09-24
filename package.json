@@ -9,7 +9,8 @@
     "check:lint": "eslint . --ext .js",
     "fix:lint": "eslint . --fix --ext .js",
     "check:prettier": "prettier -c .",
-    "fix:prettier": "prettier -c --write ."
+    "fix:prettier": "prettier -c --write .",
+    "pg-killall": "heroku pg:killall --app rule-25-backend"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
