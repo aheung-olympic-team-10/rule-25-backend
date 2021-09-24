@@ -9,6 +9,8 @@ require('dotenv').config();
 // 라우터
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
+const notificationRouter = require('./routes/notification');
+const assetRouter = require('./routes/asset');
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/users', userRouter);
+app.use('/notifications', notificationRouter);
+app.use('/assets', assetRouter);
 
 // 404 핸들링
 app.use((req, res, next) => {
