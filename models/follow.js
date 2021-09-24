@@ -14,6 +14,16 @@ module.exports = (sequelize, Sequelize) => {
       followingId: {
         type: Sequelize.INTEGER,
       },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.fn('NOW'),
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.fn('NOW'),
+      },
     },
     {
       classMethods: {},
