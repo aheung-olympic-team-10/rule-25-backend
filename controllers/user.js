@@ -1,6 +1,39 @@
+const crypto = require('crypto');
 const db = require('../models');
 const User = db.user;
 const Follow = db.follow;
+
+exports.create = async (req, res) => {
+  const { name, email, password, annualSaving, annualExpense } = req.body;
+
+  const isExisting =
+    (await User.count({
+      where: { email },
+    })) > 0;
+
+  if (isExisting) {
+    res.send('already exsits');
+    return;
+  }
+
+  const hashed = crypto.createHash('sha512').update(password).digest('base64');
+
+  try {
+    await User.create({
+      name,
+      email,
+      password: hashed,
+      description: '',
+      annualSaving,
+      annualExpense,
+    });
+  } catch (e) {
+    res.send(e);
+    return;
+  }
+
+  res.send('success');
+};
 
 exports.findOne = async (req, res) => {
   const { id } = req.params;
