@@ -29,7 +29,8 @@ exports.auth = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const { name, email, password, annualSaving, annualExpense } = req.body;
+  const { name, email, password, annualSaving, annualExpense, description } =
+    req.body;
 
   const isExisting =
     (await User.count({
