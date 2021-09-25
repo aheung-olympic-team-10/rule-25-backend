@@ -11,5 +11,6 @@ router.get('/:id', verifyJWT, user.findOne);
 router.get('/:id/followers', verifyJWT, user.getFollowers);
 router.get('/:id/followings', verifyJWT, user.getFollowings);
 router.get('/:id/fire', verifyJWT, user.getFire);
+router.get('/search/:keyword', verifyJWT, user.searchUser);
 
 module.exports = router;

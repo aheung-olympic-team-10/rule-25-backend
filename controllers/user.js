@@ -166,3 +166,17 @@ exports.getFire = async (req, res) => {
     }
   );
 };
+
+exports.searchUser = async (req, res) => {
+  const { keyword } = req.params;
+
+  const filteredUsers = await User.findAll({
+    where: {
+      name: {
+        [db.Sequelize.Op.like]: `%${keyword}%`,
+      },
+    },
+  });
+
+  res.json(filteredUsers);
+};
