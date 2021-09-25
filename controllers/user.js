@@ -1,3 +1,4 @@
+const dayjs = require('dayjs');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const yahooFinance = require('yahoo-finance');
@@ -179,4 +180,61 @@ exports.searchUser = async (req, res) => {
   });
 
   res.json(filteredUsers);
+};
+
+exports.getIssues = async (req, res) => {
+  const { id } = req.params;
+
+  const initDate = dayjs().startOf('month').toDate();
+  const endDate = dayjs().endOf('month').toDate();
+
+  const smallestExp = await AccountBook.findOne({
+    where: {
+      type: 'expenditure',
+      userId: id,
+      date: {
+        [db.Sequelize.Op.between]: [initDate, endDate],
+      },
+    },
+    order: [['amount', 'ASC']],
+    limit: 1,
+  });
+
+  const largestExp = await AccountBook.findOne({
+    where: {
+      type: 'expenditure',
+      userId: id,
+      date: {
+        [db.Sequelize.Op.between]: [initDate, endDate],
+      },
+    },
+    order: [['amount', 'DESC']],
+    limit: 1,
+  });
+
+  const smallestInc = await AccountBook.findOne({
+    where: {
+      type: 'income',
+      userId: id,
+      date: {
+        [db.Sequelize.Op.between]: [initDate, endDate],
+      },
+    },
+    order: [['amount', 'ASC']],
+    limit: 1,
+  });
+
+  const largestInc = await AccountBook.findOne({
+    where: {
+      type: 'income',
+      userId: id,
+      date: {
+        [db.Sequelize.Op.between]: [initDate, endDate],
+      },
+    },
+    order: [['amount', 'DESC']],
+    limit: 1,
+  });
+
+  res.json({ smallestExp, largestExp, smallestInc, largestInc });
 };
