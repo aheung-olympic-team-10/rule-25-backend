@@ -2,6 +2,7 @@ const createError = require('http-errors');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors');
 
 // 환경변수 로드
 require('dotenv').config();
@@ -20,6 +21,7 @@ const app = express();
 const db = require('./models');
 db.sequelize.sync();
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
