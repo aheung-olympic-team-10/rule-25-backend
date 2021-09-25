@@ -12,5 +12,6 @@ router.get('/:id/followers', verifyJWT, user.getFollowers);
 router.get('/:id/followings', verifyJWT, user.getFollowings);
 router.get('/:id/fire', verifyJWT, user.getFire);
 router.get('/search/:keyword', verifyJWT, user.searchUser);
+router.get('/verify-token', verifyJWT);
 
 module.exports = router;

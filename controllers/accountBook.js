@@ -1,7 +1,30 @@
 const db = require('../models');
 const AccountBook = db.accountBook;
 
-exports.findAll = async (req, res) => {};
+exports.findAll = async (req, res) => {
+  const { userId } = req.params;
+
+  const accountBooks = await AccountBook.findAll({
+    where: {
+      userId,
+    },
+  });
+
+  res.json(accountBooks);
+};
+
+exports.findAllWithLimit = async (req, res) => {
+  const { userId, limit } = req.params;
+
+  const accountBooks = await AccountBook.findAll({
+    where: {
+      userId,
+    },
+    limit,
+  });
+
+  res.json(accountBooks);
+};
 
 exports.create = async (req, res) => {
   const { userId, amount, type, category, date, content } = req.body;
