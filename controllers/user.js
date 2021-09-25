@@ -56,7 +56,7 @@ exports.create = async (req, res) => {
     annualExpense,
   });
 
-  await Notification.create({ id: user.get().id, content: '가입 미션' });
+  await Notification.create({ userId: user.get().id, content: '가입 미션' });
 
   res.send('success');
 };
