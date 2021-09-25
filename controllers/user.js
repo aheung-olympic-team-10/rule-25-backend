@@ -8,6 +8,7 @@ const User = db.user;
 const Follow = db.follow;
 const Asset = db.asset;
 const AccountBook = db.accountBook;
+const Notification = db.notification;
 
 const createToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_SECRET, {
@@ -22,7 +23,7 @@ exports.auth = async (req, res) => {
   const user = await User.findOne({ where: { email } });
 
   if (user.password === hashed) {
-    res.send(createToken(user.get()));
+    res.send({ token: createToken(user.get()), userId: user.get().id });
   } else {
     res.send('invalid');
   }
@@ -42,21 +43,20 @@ exports.create = async (req, res) => {
     return;
   }
 
+  console.log({ description });
+
   const hashed = crypto.createHash('sha512').update(password).digest('base64');
 
-  try {
-    await User.create({
-      name,
-      email,
-      password: hashed,
-      description: '',
-      annualSaving,
-      annualExpense,
-    });
-  } catch (e) {
-    res.send(e);
-    return;
-  }
+  const user = await User.create({
+    name,
+    email,
+    password: hashed,
+    description,
+    annualSaving,
+    annualExpense,
+  });
+
+  await Notification.create({ id: user.get().id, content: '가입 미션' });
 
   res.send('success');
 };
